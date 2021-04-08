@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <FLOW VERSION="3.0" CLEANUP="true">
+  <COMMENT></COMMENT>
 
   <!-- nodes -->
 
-<RETRY TIMEOUT="" COUNT="" BACK-OFF="" LOOP-ON="FAILURE">
+<RETRY TIMEOUT="" COUNT="" BACK-OFF="" LOOP-ON="SUCCESS">
   <COMMENT></COMMENT>
 
   <!-- nodes -->
@@ -15,15 +16,18 @@
 
 <LOOP TIMEOUT="" IN-ARRAY="/inputStrList">
   <COMMENT></COMMENT>
-</LOOP>
 
-<BRANCH TIMEOUT="" SWITCH="/outputStr">
+  <!-- nodes -->
+
+<BRANCH TIMEOUT="" SWITCH="/inputStrList">
   <COMMENT></COMMENT>
-</BRANCH>
+
+  <!-- nodes -->
 
 <SEQUENCE NAME="Sahithi" TIMEOUT="" EXIT-ON="FAILURE">
   <COMMENT></COMMENT>
-</SEQUENCE>
+
+  <!-- nodes -->
 
 <MAP NAME="Sahithi" TIMEOUT="" MODE="STANDALONE">
   <COMMENT></COMMENT>
@@ -51,11 +55,10 @@
         <value name="is_public">false</value>
         <value name="field_name">inputStrList</value>
         <value name="field_type">string</value>
-        <value name="field_dim">1</value>
+        <value name="field_dim">0</value>
         <value name="nillable">true</value>
         <value name="form_qualified">false</value>
         <value name="is_global">false</value>
-        <value name="is_soap_array_encoding_used">false</value>
       </record>
       <record javaclass="com.wm.util.Values">
         <value name="node_type">unknown</value>
@@ -94,11 +97,11 @@
 
   <!-- nodes -->
 
-<MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/Status;1;0">
+<MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="true" GLOBALVARIABLES="false" FIELD="/Status;1;0">
   <DATA ENCODING="XMLValues" I18N="true">
 
 <Values version="2.0">
-  <value name="xml">We found the value on% $retries%</value>
+  <value name="xml">We found the value on %$iteration%</value>
   <record name="type" javaclass="com.wm.util.Values">
     <value name="node_type">unknown</value>
     <value name="node_subtype">unknown</value>
@@ -113,14 +116,38 @@
 </Values>
 </DATA>
 </MAPSET>
+
+<MAPSET NAME="Setter" OVERWRITE="true" VARIABLES="false" GLOBALVARIABLES="false" FIELD="/inputStrList;1;0">
+  <DATA ENCODING="XMLValues" I18N="true">
+
+<Values version="2.0">
+  <value name="xml"></value>
+  <record name="type" javaclass="com.wm.util.Values">
+    <value name="node_type">record</value>
+    <value name="node_subtype">unknown</value>
+    <value name="node_comment"></value>
+    <record name="node_hints" javaclass="com.wm.util.Values">
+      <value name="field_largerEditor">false</value>
+      <value name="field_password">false</value>
+    </record>
+    <value name="is_public">false</value>
+    <value name="field_name">inputStrList</value>
+    <value name="field_type">string</value>
+    <value name="field_dim">0</value>
+    <value name="nillable">true</value>
+    <value name="form_qualified">false</value>
+    <value name="is_global">false</value>
+  </record>
+</Values>
+</DATA>
+</MAPSET>
 </MAP>
+
+<EXIT FROM="$flow" SIGNAL="SUCCESS" FAILURE-MESSAGE="">
+  <COMMENT></COMMENT>
+</EXIT>
+</SEQUENCE>
+</BRANCH>
+</LOOP>
 </RETRY>
-
-<EXIT FROM="$flow" SIGNAL="SUCCESS" FAILURE-MESSAGE="">
-  <COMMENT></COMMENT>
-</EXIT>
-
-<EXIT FROM="$flow" SIGNAL="SUCCESS" FAILURE-MESSAGE="">
-  <COMMENT></COMMENT>
-</EXIT>
 </FLOW>
